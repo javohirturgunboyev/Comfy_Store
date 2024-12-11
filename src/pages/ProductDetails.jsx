@@ -19,7 +19,7 @@ const ProductDetails = () => {
         setLoading(false);
       })
       .catch(() => {
-        setError("Product not found");
+        setError("Mahsulot topilmadi");
         setLoading(false);
       });
   }, [id]);
@@ -49,41 +49,41 @@ const ProductDetails = () => {
     window.dispatchEvent(new Event("storage")); 
   };
 
-  if (loading) return <p className="text-center mt-10 text-gray-700 dark:text-white">Loading...</p>;
+  if (loading) return <p className="text-center mt-10 text-gray-700 dark:text-white">Yuklanmoqda...</p>;
   if (error) return <p className="text-center mt-10 text-red-500">{error}</p>;
 
   return (
     <section className="p-8 max-w-5xl mx-auto">
       <button
         onClick={() => navigate("/")}
-        className="text-blue-500 hover:underline mb-4"
+        className="btn btn-link text-blue-500 hover:underline mb-4"
       >
-        Home
+    Home
       </button>
       <button
         onClick={() => navigate("/products")}
-        className="text-blue-500 hover:underline mb-4"
+        className="btn btn-link text-blue-500 hover:underline mb-4"
       >
-        Products
+       Products
       </button>
       <div className="flex flex-col md:flex-row gap-8 items-start">
         <div className="flex-1">
           <img
             src={product.image || "https://via.placeholder.com/400"}
-            alt={product.title || "Product"}
+            alt={product.title || "Mahsulot"}
             className="w-full h-auto object-cover rounded shadow"
           />
         </div>
         <div className="flex-1">
           <h1 className="text-3xl font-bold mb-2 dark:text-white">{product.title}</h1>
-          <h2 className="text-xl text-gray-500 mb-4">{product.company || "Brand"}</h2>
+          <h2 className="text-xl text-gray-500 mb-4">{product.company || "Brend"}</h2>
           <p className="text-2xl font-semibold mb-6 dark:text-white">${product.price || "N/A"}</p>
           <p className="text-gray-700 mb-6 dark:text-gray-300">
-            {product.description || "No description available."}
+            {product.description || "Tavsif mavjud emas."}
           </p>
 
           <div className="mb-4">
-            <h3 className="font-semibold dark:text-white">Select Colors</h3>
+            <h3 className="font-semibold dark:text-white">colors</h3>
             <div className="flex flex-wrap gap-4 mt-2">
               {(product.colors || ["#FF0000", "#00FF00", "#0000FF"]).map((color, index) => (
                 <label key={index} className="flex items-center gap-2 cursor-pointer">
@@ -106,7 +106,7 @@ const ProductDetails = () => {
           </div>
 
           <div className="mb-6">
-            <h3 className="font-semibold dark:text-white">Amount</h3>
+            <h3 className="font-semibold dark:text-white">Miqdor</h3>
             <select
               className="mt-2 px-3 py-2 border rounded w-48"
               value={quantity}
@@ -122,9 +122,9 @@ const ProductDetails = () => {
 
           <button
             onClick={handleAddToCart}
-            className="px-6 py-3 bg-blue-600 text-white rounded shadow hover:bg-blue-700"
+            className="btn btn-primary w-full"
           >
-            Add to Bag
+            Add to bag
           </button>
         </div>
       </div>
