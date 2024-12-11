@@ -9,6 +9,7 @@ const ProductDetails = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const [selectedColors, setSelectedColors] = useState([]);
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     axios
@@ -31,16 +32,39 @@ const ProductDetails = () => {
     }
   };
 
+  const handleAddToCart = () => {
+    const cartItem = {
+      id: product.id,
+      title: product.title,
+      price: product.price,
+      image: product.image,
+      selectedColors,
+      quantity,
+    };
+
+    const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
+    const updatedCart = [...existingCart, cartItem];
+
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    window.dispatchEvent(new Event("storage")); 
+  };
+
   if (loading) return <p className="text-center mt-10 text-gray-700 dark:text-white">Loading...</p>;
   if (error) return <p className="text-center mt-10 text-red-500">{error}</p>;
 
   return (
     <section className="p-8 max-w-5xl mx-auto">
       <button
+        onClick={() => navigate("/")}
+        className="text-blue-500 hover:underline mb-4"
+      >
+        Home
+      </button>
+      <button
         onClick={() => navigate("/products")}
         className="text-blue-500 hover:underline mb-4"
       >
-        Home &gt; Products
+        Products
       </button>
       <div className="flex flex-col md:flex-row gap-8 items-start">
         <div className="flex-1">
@@ -58,7 +82,6 @@ const ProductDetails = () => {
             {product.description || "No description available."}
           </p>
 
-         
           <div className="mb-4">
             <h3 className="font-semibold dark:text-white">Select Colors</h3>
             <div className="flex flex-wrap gap-4 mt-2">
@@ -82,10 +105,13 @@ const ProductDetails = () => {
             </div>
           </div>
 
-     
           <div className="mb-6">
             <h3 className="font-semibold dark:text-white">Amount</h3>
-            <select className="mt-2 px-3 py-2 border rounded w-48">
+            <select
+              className="mt-2 px-3 py-2 border rounded w-48"
+              value={quantity}
+              onChange={(e) => setQuantity(e.target.value)}
+            >
               {Array.from({ length: 20 }, (_, i) => i + 1).map((num) => (
                 <option key={num} value={num}>
                   {num}
@@ -94,7 +120,10 @@ const ProductDetails = () => {
             </select>
           </div>
 
-          <button className="px-6 py-3 bg-blue-600 text-white rounded shadow hover:bg-blue-700">
+          <button
+            onClick={handleAddToCart}
+            className="px-6 py-3 bg-blue-600 text-white rounded shadow hover:bg-blue-700"
+          >
             Add to Bag
           </button>
         </div>
